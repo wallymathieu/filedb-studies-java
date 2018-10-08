@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import se.gewalli.PersistCommandsHandler;
+import se.gewalli.CommandsHandler;
 import se.gewalli.commands.AddOrderCommand;
 import se.gewalli.commands.AddProductToOrderCommand;
 import se.gewalli.commands.Command;
@@ -31,7 +31,7 @@ public class OrdersController {
     @Autowired
     private Repository repository;
     @Autowired
-    private PersistCommandsHandler persistCommandsHandler;
+    private CommandsHandler persistCommandsHandler;
     @RequestMapping(value = "/api/orders/{id}", method = RequestMethod.GET)
     public ResponseEntity<Order> get(int id) {
         return repository.tryGetOrder(id).map(ResponseEntity::ok)

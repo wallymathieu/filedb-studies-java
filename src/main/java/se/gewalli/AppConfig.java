@@ -3,7 +3,6 @@ package se.gewalli;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.logging.LogLevel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -39,7 +38,7 @@ public class AppConfig {
     }
 
     @Bean
-    public PersistCommandsHandler persistCommandsHandler() {
-        return new PersistCommandsHandler();
+    public CommandsHandler persistCommandsHandler() {
+        return new CommandsHandler();
     }
 }
