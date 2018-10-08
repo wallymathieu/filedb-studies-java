@@ -20,21 +20,6 @@ public abstract class Repository {
 
     public abstract void save(Customer obj);
 
-    public Customer getCustomer(int customerId) {
-        return tryGetCustomer(customerId)
-                .getOrError(() -> String.format("Could not find customer %d", customerId));
-    }
-
-    public Product getProduct(int productId) {
-        return tryGetProduct(productId)
-                .getOrError(() -> String.format("Could not find product %d", productId));
-    }
-
-    public Order getOrder(int orderId) {
-        return tryGetOrder(orderId)
-                .getOrError(() -> String.format("Could not find order %d", orderId));
-    }
-
     public abstract Collection<Customer> getCustomers();
 
     public abstract Collection<Product> getProducts();

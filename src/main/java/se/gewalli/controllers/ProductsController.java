@@ -48,6 +48,6 @@ public class ProductsController {
         Command c = new AddProductCommand(body.id, 0, body.cost, body.name);
         return persistCommandsHandler.handle(c).thenApply(res ->
                 res.fold(err -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null),
-                        a -> ResponseEntity.ok(repository.getProduct(body.id))));
+                        a -> ResponseEntity.ok(repository.tryGetProduct(body.id).getOrNull())));
     }
 }

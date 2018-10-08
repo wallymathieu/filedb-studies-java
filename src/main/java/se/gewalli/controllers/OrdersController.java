@@ -53,7 +53,7 @@ public class OrdersController {
         Command c = new AddOrderCommand(body.id, 0, body.customer, Instant.now());
         return persistCommandsHandler.handle(c).thenApply(res ->
                 res.fold(err -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null),
-                        a -> ResponseEntity.ok(repository.getOrder(body.id))));
+                        a -> ResponseEntity.ok(repository.tryGetOrder(body.id).getOrNull())));
     }
 
     @ApiResponses(value = {
@@ -63,6 +63,6 @@ public class OrdersController {
         Command c = new AddProductToOrderCommand(0, 0, id, body.productId);
         return persistCommandsHandler.handle(c).thenApply(res ->
                 res.fold(err -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null),
-                        a -> ResponseEntity.ok(repository.getOrder(id))));
+                        a -> ResponseEntity.ok(repository.tryGetOrder(id).getOrNull())));
     }
 }

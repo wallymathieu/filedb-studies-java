@@ -48,6 +48,6 @@ public class CustomersController {
         Command c = new AddCustomerCommand(body.id, 0, body.firstname, body.lastname);
         return persistCommandsHandler.handle(c).thenApply(res ->
                 res.fold(err -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null),
-                        a -> ResponseEntity.ok(repository.getCustomer(body.id))));
+                        a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).getOrNull())));
     }
 }
