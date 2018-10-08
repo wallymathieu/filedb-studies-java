@@ -1,5 +1,6 @@
 package se.gewalli.data;
 
+import io.atlassian.fugue.Option;
 import se.gewalli.entities.Customer;
 import se.gewalli.entities.Order;
 import se.gewalli.entities.Product;
@@ -15,18 +16,18 @@ public class InMemoryRepository extends Repository {
     Map<Integer, Order> orderMap = new HashMap<>();
 
     @Override
-    public Optional<Customer> tryGetCustomer(int customerId) {
-        return Optional.ofNullable(customerMap.get(customerId));
+    public Option<Customer> tryGetCustomer(int customerId) {
+        return Option.fromOptional(Optional.ofNullable(customerMap.get(customerId)));
     }
 
     @Override
-    public Optional<Product> tryGetProduct(int productId) {
-        return Optional.ofNullable(productMap.get(productId));
+    public Option<Product> tryGetProduct(int productId) {
+        return Option.fromOptional(Optional.ofNullable(productMap.get(productId)));
     }
 
     @Override
-    public Optional<Order> tryGetOrder(int orderId) {
-        return Optional.ofNullable(orderMap.get(orderId));
+    public Option<Order> tryGetOrder(int orderId) {
+        return Option.fromOptional(Optional.ofNullable(orderMap.get(orderId)));
     }
 
     @Override

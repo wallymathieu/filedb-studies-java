@@ -2,7 +2,8 @@ package se.gewalli.commands;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import se.gewalli.data.EntityNotFound;
+import io.atlassian.fugue.Option;
+import io.atlassian.fugue.Options;
 import se.gewalli.data.Repository;
 import se.gewalli.entities.Order;
 import se.gewalli.entities.Product;
@@ -30,10 +31,12 @@ public final class AddProductToOrderCommand extends Command {
     }
 
     @Override
-    public void handle(Repository repository) throws EntityNotFound {
-        Order order = repository.getOrder(orderId);
-        List<Product> productList= new ArrayList<>(order.products);
-        productList.add(repository.getProduct(productId));
-        repository.save(new Order(order.id, order.customer, order.orderDate, productList,order.version+1));
+    public void handle(Repository repository) {
+        Options.lift2((Order order, Product product) -> {
+            ArrayList<Product> productList = new ArrayList<>(order.products);
+            productList.add(product);
+            repository.save(new Order(order.id, order.customer, order.orderDate, productList, order.version + 1));
+            return 0;
+        }).apply(repository.tryGetOrder(orderId), repository.tryGetProduct(productId));
     }
 }

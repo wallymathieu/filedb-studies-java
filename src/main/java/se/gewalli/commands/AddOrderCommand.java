@@ -2,8 +2,11 @@ package se.gewalli.commands;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import se.gewalli.data.EntityNotFound;
+import io.atlassian.fugue.Option;
+import io.atlassian.fugue.Options;
+import io.atlassian.fugue.Try;
 import se.gewalli.data.Repository;
+import se.gewalli.entities.Customer;
 import se.gewalli.entities.Order;
 
 import java.time.Instant;
@@ -29,11 +32,14 @@ public final class AddOrderCommand extends Command {
     }
 
     @Override
-    public void handle(Repository repository) throws EntityNotFound {
-        repository.save(new Order(id,
-                repository.getCustomer(customer),
-                orderDate,
-                new ArrayList<>(),
-                version));
+    public void handle(Repository repository) {
+        Options.lift((Customer c) -> {
+            repository.save(new Order(id,
+                    c,
+                    orderDate,
+                    new ArrayList<>(),
+                    version));
+            return 0;
+        }).apply(repository.tryGetCustomer(customer));
     }
 }
