@@ -5,13 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import io.atlassian.fugue.Checked;
+import io.atlassian.fugue.Either;
 import se.gewalli.AppendBatch;
 import se.gewalli.FailureReason;
 import se.gewalli.commands.Command;
-import se.gewalli.results.Result;
-import se.gewalli.results.ResultBuilder;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -39,25 +42,25 @@ public class AppendToFile implements AppendBatch {
     }
 
     @Override
-    public CompletableFuture<Result<Integer, FailureReason>> batch(Collection<Command> commands) {
+    public CompletableFuture<Either<FailureReason, Integer>> batch(Collection<Command> commands) {
         return CompletableFuture.supplyAsync(() -> {
-            ResultBuilder<Integer, FailureReason> result = Result.builder();
+
             try (FileWriter fw = new FileWriter(fileName, true);
                  BufferedWriter bw = new BufferedWriter(fw)) {
                 bw.write(objectMapper.writeValueAsString(commands));
                 bw.newLine();
-                return result.ok(commands.size());
+                return Either.right(commands.size());
             } catch (IOException e) {
                 logger.accept(e);
-                return result.error(FailureReason.IOException);
+                return Either.left(FailureReason.IOException);
             }
         }, executorService);
     }
 
     @Override
-    public CompletableFuture<Result<Collection<Command>, FailureReason>> readAll() {
+    public CompletableFuture<Either<FailureReason, Collection<Command>>> readAll() {
         return CompletableFuture.supplyAsync(() -> {
-            ResultBuilder<Collection<Command>, FailureReason> result = Result.builder();
+
             try (BufferedReader r = Files.newBufferedReader(Paths.get(fileName))) {
                 List<Command> commands = new ArrayList<>();
 
@@ -67,10 +70,10 @@ public class AppendToFile implements AppendBatch {
                         .filter(Objects::nonNull)
                         .forEach(commands::addAll);
 
-                return result.ok(commands);
+                return Either.right(commands);
             } catch (IOException e) {
                 logger.accept(e);
-                return result.error(FailureReason.IOException);
+                return Either.left(FailureReason.IOException);
             }
         }, executorService);
     }

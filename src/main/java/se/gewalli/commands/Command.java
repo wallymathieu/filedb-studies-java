@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-import se.gewalli.data.EntityNotFound;
 import se.gewalli.data.Repository;
 
 @JsonTypeInfo(include = As.PROPERTY, use = Id.NAME, property = "type")
@@ -24,5 +23,6 @@ public abstract class Command {
     }
 
     public abstract CommandType getType();
-    public abstract void handle(Repository repository) throws EntityNotFound;
+
+    public abstract void handle(Repository repository);
 }

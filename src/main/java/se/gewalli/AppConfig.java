@@ -13,7 +13,6 @@ import se.gewalli.json.AppendToFile;
 import java.util.concurrent.Executors;
 
 
-
 @Configuration
 public class AppConfig {
     @Autowired
@@ -38,7 +37,7 @@ public class AppConfig {
     }
 
     @Bean
-    public CommandsHandler persistCommandsHandler() {
+    public CommandsHandler commandsHandler() {
         return new CommandsHandler();
     }
 }
