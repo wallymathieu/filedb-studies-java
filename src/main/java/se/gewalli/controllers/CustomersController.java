@@ -43,7 +43,7 @@ public class CustomersController {
     public CompletableFuture<ResponseEntity<Customer>> add(@RequestBody()CreateCustomer body) {
         Command c=new AddCustomerCommand(body.id,0, body.firstname, body.lastname);
         return persistCommandsHandler.handle(c).thenApply(res->
-                res.map(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse(null)),
+                res.fold(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse(null)),
                         err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
 }

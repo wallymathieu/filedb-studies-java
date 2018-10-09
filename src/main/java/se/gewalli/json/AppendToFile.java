@@ -9,7 +9,6 @@ import se.gewalli.AppendBatch;
 import se.gewalli.FailureReason;
 import se.gewalli.commands.Command;
 import se.gewalli.results.Result;
-import se.gewalli.results.ResultBuilder;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -41,15 +40,14 @@ public class AppendToFile implements AppendBatch {
     @Override
     public CompletableFuture<Result<Integer, FailureReason>> batch(Collection<Command> commands) {
         return CompletableFuture.supplyAsync(() -> {
-            ResultBuilder<Integer, FailureReason> result = Result.builder();
             try (FileWriter fw = new FileWriter(fileName, true);
                  BufferedWriter bw = new BufferedWriter(fw)) {
                 bw.write(objectMapper.writeValueAsString(commands));
                 bw.newLine();
-                return result.ok(commands.size());
+                return Result.ok(commands.size());
             } catch (IOException e) {
                 logger.accept(e);
-                return result.error(FailureReason.IOException);
+                return Result.error(FailureReason.IOException);
             }
         }, executorService);
     }
@@ -57,7 +55,6 @@ public class AppendToFile implements AppendBatch {
     @Override
     public CompletableFuture<Result<Collection<Command>, FailureReason>> readAll() {
         return CompletableFuture.supplyAsync(() -> {
-            ResultBuilder<Collection<Command>, FailureReason> result = Result.builder();
             try (BufferedReader r = Files.newBufferedReader(Paths.get(fileName))) {
                 List<Command> commands = new ArrayList<>();
 
@@ -67,10 +64,10 @@ public class AppendToFile implements AppendBatch {
                         .filter(Objects::nonNull)
                         .forEach(commands::addAll);
 
-                return result.ok(commands);
+                return Result.ok(commands);
             } catch (IOException e) {
                 logger.accept(e);
-                return result.error(FailureReason.IOException);
+                return Result.error(FailureReason.IOException);
             }
         }, executorService);
     }

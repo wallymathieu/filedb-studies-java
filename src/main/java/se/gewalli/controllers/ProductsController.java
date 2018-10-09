@@ -43,7 +43,7 @@ public class ProductsController {
     public CompletableFuture<ResponseEntity<Product>> add(@RequestBody()CreateProduct body) {
         Command c=new AddProductCommand(body.id,0, body.cost, body.name);
         return persistCommandsHandler.handle(c).thenApply(res->
-                res.map(a -> ResponseEntity.ok(repository.tryGetProduct(body.id).orElse(null)),
+                res.fold(a -> ResponseEntity.ok(repository.tryGetProduct(body.id).orElse(null)),
                         err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
 }

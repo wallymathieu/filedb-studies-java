@@ -47,7 +47,7 @@ public class OrdersController {
     public CompletableFuture<ResponseEntity<Order>> add(@RequestBody()CreateOrder body) {
         Command c=new AddOrderCommand(body.id,0, body.customer, Instant.now() );
         return persistCommandsHandler.handle(c).thenApply(res->
-                res.map(a -> ResponseEntity.ok(repository.tryGetOrder(body.id).orElse(null)),
+                res.fold(a -> ResponseEntity.ok(repository.tryGetOrder(body.id).orElse(null)),
                         err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
     @ApiResponses(value = {
@@ -56,7 +56,7 @@ public class OrdersController {
     public CompletableFuture<ResponseEntity<Order>> addProduct(int id, @RequestBody()AddProduct body) {
         Command c=new AddProductToOrderCommand(0,0, id, body.productId );
         return persistCommandsHandler.handle(c).thenApply(res->
-                res.map(a -> ResponseEntity.ok(repository.tryGetOrder(id).orElse(null)),
+                res.fold(a -> ResponseEntity.ok(repository.tryGetOrder(id).orElse(null)),
                         err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
 }

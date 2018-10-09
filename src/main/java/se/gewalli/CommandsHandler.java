@@ -32,7 +32,7 @@ public class CommandsHandler {
 
     @PostConstruct
     public void init() {
-        appendBatch.readAll().thenApply(res -> res.map(collection -> {
+        appendBatch.readAll().thenApply(res -> res.fold(collection -> {
                     logger.info("booting up repository information based on stored information");
                     for (Command command : collection) {
                         try {
