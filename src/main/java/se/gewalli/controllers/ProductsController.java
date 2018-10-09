@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.gewalli.CommandsHandler;
 import se.gewalli.commands.AddProductCommand;
 import se.gewalli.commands.Command;
@@ -29,7 +26,7 @@ public class ProductsController {
     @Autowired
     private CommandsHandler persistCommandsHandler;
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Product> get(int id) {
+    public ResponseEntity<Product> get(@PathVariable int id) {
         return repository.tryGetProduct(id).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }

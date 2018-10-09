@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.gewalli.CommandsHandler;
 import se.gewalli.commands.AddOrderCommand;
 import se.gewalli.commands.AddProductToOrderCommand;
@@ -33,7 +30,7 @@ public class OrdersController {
     @Autowired
     private CommandsHandler persistCommandsHandler;
     @RequestMapping(value = "/api/orders/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Order> get(int id) {
+    public ResponseEntity<Order> get(@PathVariable int id) {
         return repository.tryGetOrder(id).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }

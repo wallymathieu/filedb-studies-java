@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import se.gewalli.CommandsHandler;
 import se.gewalli.commands.AddCustomerCommand;
 import se.gewalli.commands.Command;
@@ -29,7 +26,7 @@ public class CustomersController {
     @Autowired
     private CommandsHandler persistCommandsHandler;
     @RequestMapping(value = "/api/customers/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Customer> get(int id) {
+    public ResponseEntity<Customer> get(@PathVariable int id) {
         return repository.tryGetCustomer(id).map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
