@@ -24,7 +24,7 @@ public class CustomersController {
     @Autowired
     private Repository repository;
     @Autowired
-    private CommandsHandler persistCommandsHandler;
+    private CommandsHandler commandsHandler;
     @RequestMapping(value = "/api/customers/{id}", method = RequestMethod.GET)
     public ResponseEntity<Customer> get(@PathVariable int id) {
         return repository.tryGetCustomer(id).map(ResponseEntity::ok)
@@ -39,7 +39,7 @@ public class CustomersController {
     @RequestMapping(value = "/api/customers", method = RequestMethod.POST)
     public CompletableFuture<ResponseEntity<Customer>> add(@RequestBody()CreateCustomer body) {
         Command c=new AddCustomerCommand(body.id,0, body.firstname, body.lastname);
-        return persistCommandsHandler.handle(c).thenApply(res->
+        return commandsHandler.handle(c).thenApply(res->
                 res.fold(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse(null)),
                         err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }

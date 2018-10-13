@@ -24,7 +24,7 @@ public final class AddProductCommand extends Command {
     }
 
     @Override
-    public void handle(Repository repository) {
+    public void run(Repository repository) {
         repository.save(new Product(id, cost, name, version));
     }
 }

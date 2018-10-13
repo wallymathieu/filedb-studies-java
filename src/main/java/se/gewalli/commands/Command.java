@@ -24,5 +24,5 @@ public abstract class Command {
     }
 
     public abstract CommandType getType();
-    public abstract void handle(Repository repository) throws EntityNotFound;
+    public abstract void run(Repository repository) throws EntityNotFound;
 }

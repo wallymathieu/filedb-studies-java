@@ -15,7 +15,7 @@ public class CustomerDataTests {
         repository=new InMemoryRepository();
         GetCommands getCommands=new GetCommands();
         for (Command command : getCommands.Get()) {
-            command.handle(repository);
+            command.run(repository);
         }
     }
     @Test

@@ -29,7 +29,7 @@ public final class AddOrderCommand extends Command {
     }
 
     @Override
-    public void handle(Repository repository) throws EntityNotFound {
+    public void run(Repository repository) throws EntityNotFound {
         repository.save(new Order(id,
                 repository.getCustomer(customer),
                 orderDate,

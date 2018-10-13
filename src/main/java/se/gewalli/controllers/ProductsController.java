@@ -24,7 +24,7 @@ public class ProductsController {
     @Autowired
     private Repository repository;
     @Autowired
-    private CommandsHandler persistCommandsHandler;
+    private CommandsHandler commandsHandler;
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.GET)
     public ResponseEntity<Product> get(@PathVariable int id) {
         return repository.tryGetProduct(id).map(ResponseEntity::ok)
@@ -39,7 +39,7 @@ public class ProductsController {
     @RequestMapping(value = "/api/products", method = RequestMethod.POST)
     public CompletableFuture<ResponseEntity<Product>> add(@RequestBody()CreateProduct body) {
         Command c=new AddProductCommand(body.id,0, body.cost, body.name);
-        return persistCommandsHandler.handle(c).thenApply(res->
+        return commandsHandler.handle(c).thenApply(res->
                 res.fold(a -> ResponseEntity.ok(repository.tryGetProduct(body.id).orElse(null)),
                         err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }

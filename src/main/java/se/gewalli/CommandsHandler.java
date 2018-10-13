@@ -23,7 +23,7 @@ public class CommandsHandler {
         ArrayList<Command> l = new ArrayList<>();
         l.add(c);
         try {
-            c.handle(repository);
+            c.run(repository);
         } catch (EntityNotFound entityNotFound) {
             logger.error("entity not found", entityNotFound);
         }
@@ -36,7 +36,7 @@ public class CommandsHandler {
                     logger.info("booting up repository information based on stored information");
                     for (Command command : collection) {
                         try {
-                            command.handle(repository);
+                            command.run(repository);
                         } catch (EntityNotFound entityNotFound) {
                             logger.error("EntityNotFound", entityNotFound);
                         }
