@@ -38,9 +38,9 @@ public class ProductsController {
             @ApiResponse(code = 200, message = "successful operation", response = Product.class)})
     @RequestMapping(value = "/api/products", method = RequestMethod.POST)
     public CompletableFuture<ResponseEntity<Product>> add(@RequestBody()CreateProduct body) {
-        Command c=new AddProductCommand(body.id,0, body.cost, body.name);
-        return commandsHandler.handle(c).thenApply(res->
-                res.fold(a -> ResponseEntity.ok(repository.tryGetProduct(body.id).orElse(null)),
+        Command command=new AddProductCommand(body.id,0, body.cost, body.name);
+        return commandsHandler.handle(command).thenApply(result->
+                result.fold(a -> ResponseEntity.ok(repository.tryGetProduct(body.id).orElse(null)),
                         err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
 }

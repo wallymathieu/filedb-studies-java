@@ -40,10 +40,10 @@ public class AppendToFile implements AppendBatch {
     @Override
     public CompletableFuture<Result<Integer, FailureReason>> batch(Collection<Command> commands) {
         return CompletableFuture.supplyAsync(() -> {
-            try (FileWriter fw = new FileWriter(fileName, true);
-                 BufferedWriter bw = new BufferedWriter(fw)) {
-                bw.write(objectMapper.writeValueAsString(commands));
-                bw.newLine();
+            try (FileWriter writer = new FileWriter(fileName, true);
+                 BufferedWriter bufferedWriter = new BufferedWriter(writer)) {
+                bufferedWriter.write(objectMapper.writeValueAsString(commands));
+                bufferedWriter.newLine();
                 return Result.ok(commands.size());
             } catch (IOException e) {
                 logger.accept(e);
@@ -55,10 +55,10 @@ public class AppendToFile implements AppendBatch {
     @Override
     public CompletableFuture<Result<Collection<Command>, FailureReason>> readAll() {
         return CompletableFuture.supplyAsync(() -> {
-            try (BufferedReader r = Files.newBufferedReader(Paths.get(fileName))) {
+            try (BufferedReader reader = Files.newBufferedReader(Paths.get(fileName))) {
                 List<Command> commands = new ArrayList<>();
 
-                r.lines()
+                reader.lines()
                         .filter(Objects::nonNull)
                         .map(this::parse)
                         .filter(Objects::nonNull)

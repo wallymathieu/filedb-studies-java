@@ -30,18 +30,18 @@ public class InMemoryRepository extends Repository {
     }
 
     @Override
-    public void save(Product obj) {
-        productMap.put(obj.id, obj);
+    public void save(Product product) {
+        productMap.put(product.id, product);
     }
 
     @Override
-    public void save(Order obj) {
-        orderMap.put(obj.id, obj);
+    public void save(Order order) {
+        orderMap.put(order.id, order);
     }
 
     @Override
-    public void save(Customer obj) {
-        customerMap.put(obj.id, obj);
+    public void save(Customer customer) {
+        customerMap.put(customer.id, customer);
     }
 
     @Override

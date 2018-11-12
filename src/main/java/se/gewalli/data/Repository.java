@@ -14,11 +14,11 @@ public abstract class Repository {
 
     public abstract Optional<Order> tryGetOrder(int orderId);
 
-    public abstract void save(Product obj);
+    public abstract void save(Product product);
 
-    public abstract void save(Order obj);
+    public abstract void save(Order order);
 
-    public abstract void save(Customer obj);
+    public abstract void save(Customer customer);
     public Customer getCustomer(int customerId) throws EntityNotFound {
         return tryGetCustomer(customerId)
                 .orElseThrow(()->new EntityNotFound(String.format("Could not find customer %d", customerId)));
