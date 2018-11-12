@@ -6,20 +6,20 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Collections {
-    public static <T> Collection<Collection<T>> batchesOf(Collection<T> enumerable, int count) {
-        List<Collection<T>> result = new ArrayList<>(count);
-        Iterator<T> enumerator = enumerable.iterator();
+    public static <T> Collection<Collection<T>> batchesOf(Collection<T> collection, int count) {
+        List<Collection<T>> batches = new ArrayList<>(count);
+        Iterator<T> iterator = collection.iterator();
         while (true) {
             List<T> list = new ArrayList<>(count);
-            for (int i = 0; i < count && enumerator.hasNext(); i++) {
-                T t = enumerator.next();
+            for (int i = 0; i < count && iterator.hasNext(); i++) {
+                T t = iterator.next();
                 list.add(t);
             }
             if (list.isEmpty()) {
                 break;
             }
-            result.add(list);
+            batches.add(list);
         }
-        return result;
+        return batches;
     }
 }

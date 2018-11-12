@@ -38,9 +38,9 @@ public class CustomersController {
             @ApiResponse(code = 200, message = "successful operation", response = Customer.class)})
     @RequestMapping(value = "/api/customers", method = RequestMethod.POST)
     public CompletableFuture<ResponseEntity<Customer>> add(@RequestBody()CreateCustomer body) {
-        Command c=new AddCustomerCommand(body.id,0, body.firstname, body.lastname);
-        return commandsHandler.handle(c).thenApply(res->
-                res.fold(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse(null)),
+        Command command=new AddCustomerCommand(body.id,0, body.firstname, body.lastname);
+        return commandsHandler.handle(command).thenApply(result->
+                result.fold(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse(null)),
                         err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
 }
