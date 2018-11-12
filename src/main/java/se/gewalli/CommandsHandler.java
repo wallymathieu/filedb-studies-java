@@ -11,7 +11,9 @@ import se.gewalli.results.Result;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
-
+/**
+* Wraps append batch and repository in order to append command results to repository and append them once done.
+* */
 public class CommandsHandler {
     @Autowired
     private AppendBatch appendBatch;
@@ -29,21 +31,4 @@ public class CommandsHandler {
         }
         return appendBatch.batch(l);
     }
-
-    @PostConstruct
-    public void init() {
-        appendBatch.readAll().thenApply(res -> res.fold(collection -> {
-                    logger.info("booting up repository information based on stored information");
-                    for (Command command : collection) {
-                        try {
-                            command.run(repository);
-                        } catch (EntityNotFound entityNotFound) {
-                            logger.error("EntityNotFound", entityNotFound);
-                        }
-                    }
-                    return 0;
-                },
-                err -> {logger.error("Failed to read all", err); return 1;})).join();
-    }
-
 }
