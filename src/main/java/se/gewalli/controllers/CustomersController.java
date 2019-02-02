@@ -28,7 +28,7 @@ public class CustomersController {
     @RequestMapping(value = "/api/customers/{id}", method = RequestMethod.GET)
     public ResponseEntity<Customer> get(@PathVariable int id) {
         return repository.tryGetCustomer(id).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body((Customer)null));
     }
     @RequestMapping(value = "/api/customers", method = RequestMethod.GET)
     public ResponseEntity<Customer[]> get() {
@@ -40,7 +40,7 @@ public class CustomersController {
     public CompletableFuture<ResponseEntity<Customer>> add(@RequestBody()CreateCustomer body) {
         Command command=new AddCustomerCommand(body.id,0, body.firstname, body.lastname);
         return commandsHandler.handle(command).thenApply(result->
-                result.fold(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse(null)),
-                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
+                result.fold(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse((Customer)null)),
+                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Customer)null)));
     }
 }

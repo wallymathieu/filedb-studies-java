@@ -28,7 +28,7 @@ public class ProductsController {
     @RequestMapping(value = "/api/products/{id}", method = RequestMethod.GET)
     public ResponseEntity<Product> get(@PathVariable int id) {
         return repository.tryGetProduct(id).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body((Product)null));
     }
     @RequestMapping(value = "/api/products", method = RequestMethod.GET)
     public ResponseEntity<Product[]> get() {
@@ -40,7 +40,7 @@ public class ProductsController {
     public CompletableFuture<ResponseEntity<Product>> add(@RequestBody()CreateProduct body) {
         Command command=new AddProductCommand(body.id,0, body.cost, body.name);
         return commandsHandler.handle(command).thenApply(result->
-                result.fold(a -> ResponseEntity.ok(repository.tryGetProduct(body.id).orElse(null)),
-                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
+                result.fold(a -> ResponseEntity.ok(repository.tryGetProduct(body.id).orElse((Product)null)),
+                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Product)null)));
     }
 }

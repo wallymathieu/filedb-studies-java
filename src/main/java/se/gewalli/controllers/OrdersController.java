@@ -32,7 +32,7 @@ public class OrdersController {
     @RequestMapping(value = "/api/orders/{id}", method = RequestMethod.GET)
     public ResponseEntity<Order> get(@PathVariable int id) {
         return repository.tryGetOrder(id).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body((Order)null));
     }
     @RequestMapping(value = "/api/orders", method = RequestMethod.GET)
     public ResponseEntity<Order[]> get() {
@@ -44,8 +44,8 @@ public class OrdersController {
     public CompletableFuture<ResponseEntity<Order>> add(@RequestBody()CreateOrder body) {
         Command command=new AddOrderCommand(body.id,0, body.customer, Instant.now() );
         return commandsHandler.handle(command).thenApply(result->
-                result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(body.id).orElse(null)),
-                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
+                result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(body.id).orElse((Order)null)),
+                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Order)null)));
     }
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = Order.class)})
@@ -53,7 +53,7 @@ public class OrdersController {
     public CompletableFuture<ResponseEntity<Order>> addProduct(int id, @RequestBody()AddProduct body) {
         Command command=new AddProductToOrderCommand(0,0, id, body.productId );
         return commandsHandler.handle(command).thenApply(result->
-                result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(id).orElse(null)),
-                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
+                result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(id).orElse((Order)null)),
+                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Order)null)));
     }
 }
