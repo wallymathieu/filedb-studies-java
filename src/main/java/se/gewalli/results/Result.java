@@ -39,6 +39,7 @@ public abstract class Result<T, TError> {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public boolean equals(Object obj) {
             if (this.getClass().isInstance(obj)) {
                 Ok<T, TError> err = (Ok<T, TError>) obj;
@@ -82,6 +83,7 @@ public abstract class Result<T, TError> {
         }
 
         @Override
+        @SuppressWarnings("unchecked")
         public boolean equals(Object obj) {
             if (this.getClass().isInstance(obj)) {
                 Error<T, TError> err = (Error<T, TError>) obj;

@@ -28,13 +28,13 @@ public class AppConfig {
 
     @Bean
     public AppendBatch appendBatch() throws IOException {
-        String dbLocation = env.getProperty("FILE_DB_LOCATION");
-        Logger logger = LoggerFactory.getLogger(AppConfig.class);
+        var dbLocation = env.getProperty("FILE_DB_LOCATION");
+        var logger = LoggerFactory.getLogger(AppConfig.class);
         if (dbLocation == null || dbLocation.isEmpty()) {
             logger.info("No database location found, using tmp");
             dbLocation = "/tmp/test.db";
         }
-        File db=new File(dbLocation);
+        var db=new File(dbLocation);
         if (! db.exists()){
             db.createNewFile();
         }
