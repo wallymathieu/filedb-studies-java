@@ -12,9 +12,9 @@ import se.gewalli.data.InMemoryRepository;
 import se.gewalli.data.Repository;
 import se.gewalli.json.AppendToFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.Executors;
-
-
 
 @Configuration
 public class AppConfig {
@@ -27,12 +27,16 @@ public class AppConfig {
     }
 
     @Bean
-    public AppendBatch appendBatch() {
+    public AppendBatch appendBatch() throws IOException {
         String dbLocation = env.getProperty("FILE_DB_LOCATION");
         Logger logger = LoggerFactory.getLogger(AppConfig.class);
         if (dbLocation == null || dbLocation.isEmpty()) {
             logger.info("No database location found, using tmp");
             dbLocation = "/tmp/test.db";
+        }
+        File db=new File(dbLocation);
+        if (! db.exists()){
+            db.createNewFile();
         }
         return new AppendToFile(dbLocation,
                 Executors.newFixedThreadPool(1),
