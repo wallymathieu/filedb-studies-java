@@ -8,7 +8,6 @@ import se.gewalli.entities.Order;
 import se.gewalli.entities.Product;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public final class AddProductToOrderCommand extends Command {
     public final int orderId;

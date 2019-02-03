@@ -13,7 +13,7 @@ public class CustomerDataTests {
     @BeforeEach
     public void beforeEach() throws EntityNotFound {
         repository=new InMemoryRepository();
-        GetCommands getCommands=new GetCommands();
+        var getCommands=new GetCommands();
         for (Command command : getCommands.Get()) {
             command.run(repository);
         }
