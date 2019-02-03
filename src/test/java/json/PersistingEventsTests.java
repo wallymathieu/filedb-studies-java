@@ -26,16 +26,16 @@ public class PersistingEventsTests {
 
     @Test
     public void read_items_persisted_in_separate_batches() {
-        String db="./tmp/Json_CustomerDataTests_1.db";
+        var db="./tmp/Json_CustomerDataTests_1.db";
         try {
-            AppendToFile appendToFile=new AppendToFile(db, pool, ex-> System.err.println(ex.toString()));
-            Collection<Collection<Command>> batches = Collections.batchesOf(cs, 3);
+            var appendToFile=new AppendToFile(db, pool, ex-> System.err.println(ex.toString()));
+            var batches = Collections.batchesOf(cs, 3);
             assertTrue(batches.size()>=2);
-            CompletableFuture<Void> ap =
+            var ap =
                     CompletableFuture.allOf(batches.stream()
                     .map(appendToFile::batch).toArray(CompletableFuture[]::new));
             ap.join();
-            Result<Collection<Command>, FailureReason> read = appendToFile.readAll().join();
+            var read = appendToFile.readAll().join();
             read.match(cs1->assertEquals(cs.size(), cs1.size()),
                     err-> Assertions.fail(err.name()));
         }finally {
@@ -44,11 +44,11 @@ public class PersistingEventsTests {
     }
     @Test
     public void read_items_persisted_in_single_batch(){
-        String db = "./tmp/Json_CustomerDataTests_2.db";
+        var db = "./tmp/Json_CustomerDataTests_2.db";
         try {
-            AppendToFile appendToFile = new AppendToFile(db, pool, ex -> System.err.println(ex.toString()));
+            var appendToFile = new AppendToFile(db, pool, ex -> System.err.println(ex.toString()));
             appendToFile.batch(cs).join();
-            Result<Collection<Command>, FailureReason> read = appendToFile.readAll().join();
+            var read = appendToFile.readAll().join();
             read.match(cs1 -> assertEquals(cs1.size(), cs.size()),
                     err -> Assertions.fail(err.name()));
         }finally {
@@ -57,11 +57,11 @@ public class PersistingEventsTests {
     }
     @Test
     public void read_items(){
-        String db = "./tmp/Json_CustomerDataTests_3.db";
+        var db = "./tmp/Json_CustomerDataTests_3.db";
         try {
-            AppendToFile appendToFile = new AppendToFile(db, pool, ex -> System.err.println(ex.toString()));
+            var appendToFile = new AppendToFile(db, pool, ex -> System.err.println(ex.toString()));
             appendToFile.batch(cs).join();
-            Result<Collection<Command>, FailureReason> read = appendToFile.readAll().join();
+            var read = appendToFile.readAll().join();
             read.match(cs1 -> {
                         assertArrayEquals(cs1.stream().map(c->c.getType()).toArray(),
                                 cs.stream().map(c->c.getType()).toArray());

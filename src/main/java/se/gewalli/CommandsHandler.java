@@ -8,7 +8,6 @@ import se.gewalli.data.EntityNotFound;
 import se.gewalli.data.Repository;
 import se.gewalli.results.Result;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 /**
@@ -22,7 +21,7 @@ public class CommandsHandler {
     Logger logger = LoggerFactory.getLogger(CommandsHandler.class);
 
     public CompletableFuture<Result<Integer, FailureReason>> handle(Command c) {
-        ArrayList<Command> l = new ArrayList<>();
+        var l = new ArrayList<Command>();
         l.add(c);
         try {
             c.run(repository);
