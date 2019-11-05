@@ -1,7 +1,14 @@
 # filedb-studies-java
+
 Port of nhibernate-studies to Java and jsonline database
 
-## Updates?
+## Running
+
+```bash
+mvn spring-boot:run
+```
+
+## Are there any updates
 
 Outdated:
 
