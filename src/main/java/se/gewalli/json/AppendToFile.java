@@ -8,7 +8,7 @@ import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import se.gewalli.AppendBatch;
 import se.gewalli.FailureReason;
 import se.gewalli.commands.Command;
-import se.gewalli.results.Result;
+import se.gewalli.kyminon.Result;
 
 import java.io.*;
 import java.nio.file.Files;

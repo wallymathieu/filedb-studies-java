@@ -1,7 +1,7 @@
 package se.gewalli;
 
 import se.gewalli.commands.Command;
-import se.gewalli.results.Result;
+import se.gewalli.kyminon.Result;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;

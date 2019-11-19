@@ -67,7 +67,11 @@
             <artifactId>guava</artifactId>
             <version>28.1-jre</version>
         </dependency>
-
+        <dependency>
+            <groupId>se.gewalli.kyminon</groupId>
+            <artifactId>kyminon</artifactId>
+            <version>1.0-SNAPSHOT</version>
+          </dependency>
     </dependencies>
     <build>
         <plugins>
