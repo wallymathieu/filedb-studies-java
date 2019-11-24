@@ -97,6 +97,7 @@
                     <rulesUri>file:///${session.executionRootDirectory}/maven-version-rules.xml</rulesUri>
                 </configuration>
             </plugin>
+            <!--
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
@@ -112,6 +113,7 @@
                     <failBuildOnCVSS>6</failBuildOnCVSS>
                 </configuration>
             </plugin>
+            -->
         </plugins>
     </build>
     <repositories>
