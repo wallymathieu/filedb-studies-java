@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.gewalli.commands.Command;
 import se.gewalli.data.EntityNotFound;
 import se.gewalli.data.Repository;
-import se.gewalli.results.Result;
+import se.gewalli.kyminon.Result;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;

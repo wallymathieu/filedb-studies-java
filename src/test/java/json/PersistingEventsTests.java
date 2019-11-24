@@ -1,13 +1,8 @@
 package json;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import se.gewalli.Collections;
-import se.gewalli.FailureReason;
-import se.gewalli.commands.Command;
-import se.gewalli.json.AppendToFile;
-import se.gewalli.results.Result;
-import xmlimport.GetCommands;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.Collection;
@@ -15,9 +10,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import se.gewalli.Collections;
+import se.gewalli.commands.Command;
+import se.gewalli.json.AppendToFile;
+import xmlimport.GetCommands;
 
 public class PersistingEventsTests {
     static GetCommands c=new GetCommands();
