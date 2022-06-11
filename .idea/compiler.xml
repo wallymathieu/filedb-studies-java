@@ -6,8 +6,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="filedb-studies-java" />
         <module name="file-db-studies" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="file-db-studies" options="-parameters -Xlint:unchecked" />
+      <module name="filedb-studies-java" options="-parameters -Xlint:unchecked" />
+    </option>
   </component>
 </project>
