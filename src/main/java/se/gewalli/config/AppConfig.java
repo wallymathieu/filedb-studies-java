@@ -68,7 +68,10 @@ public class AppConfig {
     public InitializingBean removeSpringfoxHandlerProvider(DocumentationPluginsBootstrapper bootstrapper) {
         return () -> bootstrapper.getHandlerProviders().removeIf(WebMvcRequestHandlerProvider.class::isInstance);
     }
-
+    /** 
+     * Note removeSpringfoxHandlerProvider, this workaround is described here: 
+     * https://github.com/springfox/springfox/issues/3462#issuecomment-1076552144
+    */
     @Bean
     public RequestHandlerProvider customRequestHandlerProvider(Optional<ServletContext> servletContext, HandlerMethodResolver methodResolver, List<RequestMappingInfoHandlerMapping> handlerMappings) {
         String contextPath = servletContext.map(ServletContext::getContextPath).orElse(Paths.ROOT);
