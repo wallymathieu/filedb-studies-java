@@ -1,5 +1,6 @@
 package http;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,16 +12,29 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 @Configuration
 @Lazy
 class TestConfig {
+    @Autowired
+    private Retrofit retrofit;
+
+    @Bean
+    public Customers getCustomers() {
+        return retrofit.create(Customers.class);
+    }
+    @Bean
+    public Products getProducts() {
+        return retrofit.create(Products.class);
+    }
+}
+@Configuration
+@Lazy
+class RetrofitConfig{
     @LocalServerPort
     private int port;
 
     @Bean
-    public Customers getCustomerService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://localhost:" + port)
-                .addConverterFactory(JacksonConverterFactory.create())
-                .build();
-
-        return retrofit.create(Customers.class);
+    public Retrofit getRetrofit() {
+        return new Retrofit.Builder()
+            .baseUrl("http://localhost:" + port)
+            .addConverterFactory(JacksonConverterFactory.create())
+            .build();
     }
 }

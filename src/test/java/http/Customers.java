@@ -9,7 +9,7 @@ import retrofit2.http.POST;
 import se.gewalli.controllers.CustomersController.CreateCustomer;
 import se.gewalli.entities.Customer;
 
-interface Customers {
+public interface Customers {
     @GET("/api/customers")
     Call<List<Customer>> listCustomers();
 

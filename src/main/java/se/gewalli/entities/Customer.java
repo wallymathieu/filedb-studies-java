@@ -9,7 +9,11 @@ public class Customer {
     public final String lastname;
     public final int version;
     @JsonCreator
-    public Customer(@JsonProperty("id") int id,@JsonProperty("firstname") String firstName,@JsonProperty("lastname") String lastName, @JsonProperty("version")int version) {
+    public Customer(
+        @JsonProperty("id") int id,
+        @JsonProperty("firstname") String firstName,
+        @JsonProperty("lastname") String lastName,
+        @JsonProperty("version")int version) {
         this.id = id;
         this.firstname = firstName;
         this.lastname = lastName;
