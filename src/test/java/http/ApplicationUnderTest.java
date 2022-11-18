@@ -39,13 +39,11 @@ class TestConfig {
     }
 }
 @Configuration
-@Lazy
 class RetrofitConfig{
-    @LocalServerPort
-    private int port;
 
+    @Lazy
     @Bean
-    public Retrofit getRetrofit() {
+    public Retrofit getRetrofit(@LocalServerPort int port) {
         ObjectMapper objectMapper = new ObjectMapper()
            .registerModule(new ParameterNamesModule())
            .registerModule(new Jdk8Module())
