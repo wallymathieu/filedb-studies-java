@@ -20,6 +20,13 @@ public class CustomersController {
         public int id;
         public String firstname;
         public String lastname;
+        public CreateCustomer(){
+        }
+        public CreateCustomer(int id, String firstname, String lastname){
+            this.id=id;
+            this.firstname=firstname;
+            this.lastname=lastname;
+        }
     }
     @Autowired
     private Repository repository;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import se.gewalli.CommandsHandler;
 import se.gewalli.commands.AddProductCommand;
 import se.gewalli.commands.Command;
@@ -20,6 +21,13 @@ public class ProductsController {
         public int id;
         public float cost;
         public String name;
+        public CreateProduct(){
+        }
+        public CreateProduct(int id, float cost, String name){
+            this.id = id;
+            this.cost = cost;
+            this.name = name;
+        }
     }
     @Autowired
     private Repository repository;
