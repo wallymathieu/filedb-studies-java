@@ -17,19 +17,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController()
 public class ProductsController {
-    public static class CreateProduct {
-        public int id;
-        public float cost;
-        public String name;
-
-        public CreateProduct() {
-        }
-
-        public CreateProduct(int id, float cost, String name) {
-            this.id = id;
-            this.cost = cost;
-            this.name = name;
-        }
+    public record CreateProduct(int id, float cost, String name) {
     }
 
     @Autowired

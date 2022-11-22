@@ -16,19 +16,7 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController()
 public class CustomersController {
-    public static class CreateCustomer {
-        public int id;
-        public String firstname;
-        public String lastname;
-
-        public CreateCustomer() {
-        }
-
-        public CreateCustomer(int id, String firstname, String lastname) {
-            this.id = id;
-            this.firstname = firstname;
-            this.lastname = lastname;
-        }
+    public record CreateCustomer(int id, String firstname, String lastname) {
     }
 
     @Autowired

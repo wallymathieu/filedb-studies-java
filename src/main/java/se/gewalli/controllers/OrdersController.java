@@ -18,28 +18,10 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController()
 public class OrdersController {
-    public static class CreateOrder {
-        public int id;
-        public int customer;
-
-        public CreateOrder() {
-        }
-
-        public CreateOrder(int id, int customer) {
-            this.id = id;
-            this.customer = customer;
-        }
+    public record CreateOrder(int id, int customer) {
     }
 
-    public static class AddProduct {
-        public int productId;
-
-        public AddProduct() {
-        }
-
-        public AddProduct(int productId) {
-            this.productId = productId;
-        }
+    public record AddProduct (int productId) {
     }
 
     @Autowired
