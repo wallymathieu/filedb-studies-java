@@ -64,8 +64,8 @@ public class PersistingEventsTests {
             read.match(cs1 -> {
                         assertArrayEquals(cs1.stream().map(c->c.getType()).toArray(),
                                 cs.stream().map(c->c.getType()).toArray());
-                        assertArrayEquals(cs1.stream().map(c->c.id).toArray(),
-                                cs.stream().map(c->c.id).toArray());
+                        assertArrayEquals(cs1.stream().map(c->c.id()).toArray(),
+                                cs.stream().map(c->c.id()).toArray());
                     },
                     err -> Assertions.fail(err.name()));
         }finally {

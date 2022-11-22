@@ -14,15 +14,9 @@ import se.gewalli.data.Repository;
         @JsonSubTypes.Type(value = AddProductCommand.class),
         @JsonSubTypes.Type(value = AddProductToOrderCommand.class),
 })
-public abstract class Command {
-    public final int id;
-    public final int version;
+public interface Command {
+    CommandType getType();
+    void run(Repository repository) throws EntityNotFound;
 
-    public Command(int id, int version) {
-        this.id = id;
-        this.version = version;
-    }
-
-    public abstract CommandType getType();
-    public abstract void run(Repository repository) throws EntityNotFound;
+    int id();
 }

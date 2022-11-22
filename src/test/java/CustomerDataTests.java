@@ -20,14 +20,14 @@ public class CustomerDataTests {
     }
     @Test
     public void canGetCustomerById() throws EntityNotFound {
-        assertEquals("Steve" , repository.getCustomer(1).firstname);
+        assertEquals("Steve" , repository.getCustomer(1).firstName());
     }
     @Test
     public void canGetProductById() throws EntityNotFound {
-        assertEquals("Yo-yo" , repository.getProduct(1).name);
+        assertEquals("Yo-yo" , repository.getProduct(1).name());
     }
     @Test
     public void orderContainsProduct() throws EntityNotFound {
-        assertEquals(3 , repository.getOrder(1).products.size());
+        assertEquals(3 , repository.getOrder(1).products().size());
     }
 }

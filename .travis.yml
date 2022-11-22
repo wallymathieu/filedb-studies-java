@@ -1,5 +1,5 @@
 language: java
-jdk: openjdk11
+jdk: openjdk19
 script: "mvn clean package test"
 branches:
   only: 
