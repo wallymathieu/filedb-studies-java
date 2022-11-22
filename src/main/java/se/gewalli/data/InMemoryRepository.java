@@ -31,17 +31,17 @@ public class InMemoryRepository extends Repository {
 
     @Override
     public void save(Product product) {
-        productMap.put(product.id, product);
+        productMap.put(product.id(), product);
     }
 
     @Override
     public void save(Order order) {
-        orderMap.put(order.id, order);
+        orderMap.put(order.id(), order);
     }
 
     @Override
     public void save(Customer customer) {
-        customerMap.put(customer.id, customer);
+        customerMap.put(customer.id(), customer);
     }
 
     @Override

@@ -5,12 +5,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import retrofit2.Response;
 import se.gewalli.controllers.CustomersController.CreateCustomer;
-import se.gewalli.controllers.OrdersController;
 import se.gewalli.controllers.OrdersController.AddProduct;
 import se.gewalli.controllers.OrdersController.CreateOrder;
 import se.gewalli.controllers.ProductsController.CreateProduct;
@@ -39,7 +37,7 @@ public class HttpRequestTest {
         customers.post(new CreateCustomer(2, "Firstname", "Lastname")).execute();
         Response<List<Customer>> exchange = customers.list().execute();
         assertEquals(HttpStatus.OK.value(), exchange.code());
-        assertEquals("Firstname", ((Customer) exchange.body().get(0)).firstname);
+        assertEquals("Firstname", ((Customer) exchange.body().get(0)).firstName());
     }
 
     @Test
@@ -47,7 +45,7 @@ public class HttpRequestTest {
         customers.post(new CreateCustomer(1, "Firstname", "Lastname")).execute();
         Response<Customer> exchange = customers.get(1).execute();
         assertEquals(HttpStatus.OK.value(), exchange.code());
-        assertEquals("Firstname", exchange.body().firstname);
+        assertEquals("Firstname", exchange.body().firstName());
     }
 
     @Test
@@ -64,7 +62,7 @@ public class HttpRequestTest {
         products.post(new CreateProduct(1, 10, "product1")).execute();
         Response<Product> exchange = products.get(1).execute();
         assertEquals(HttpStatus.OK.value(), exchange.code());
-        assertEquals("product1", exchange.body().name);
+        assertEquals("product1", exchange.body().name());
     }
 
     @Test
@@ -81,7 +79,7 @@ public class HttpRequestTest {
         assertEquals(HttpStatus.OK.value(), exchange.code());
         Order body = exchange.body();
         assertNotNull(body);
-        assertEquals("Firstname", body.customer.firstname);
-        assertEquals(1, body.products.size());
+        assertEquals("Firstname", body.customer().firstName());
+        assertEquals(1, body.products().size());
     }
 }

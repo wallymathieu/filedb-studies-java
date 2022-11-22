@@ -10,7 +10,10 @@ import se.gewalli.FailureReason;
 import se.gewalli.commands.Command;
 import se.gewalli.kyminon.Result;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -74,7 +77,8 @@ public class AppendToFile implements AppendBatch {
 
     private Collection<Command> parse(String line) {
         try {
-            return objectMapper.readValue(line, new TypeReference<Collection<Command>>() {});
+            return objectMapper.readValue(line, new TypeReference<Collection<Command>>() {
+            });
         } catch (IOException ex) {//NOTE: We assume low probability of this happening
             logger.accept(ex);
             throw new RuntimeException(ex);

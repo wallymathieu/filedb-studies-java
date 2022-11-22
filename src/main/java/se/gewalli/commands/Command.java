@@ -1,7 +1,7 @@
 package se.gewalli.commands;
 
-import com.fasterxml.jackson.annotation.*;
-
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import se.gewalli.data.EntityNotFound;
@@ -14,15 +14,10 @@ import se.gewalli.data.Repository;
         @JsonSubTypes.Type(value = AddProductCommand.class),
         @JsonSubTypes.Type(value = AddProductToOrderCommand.class),
 })
-public abstract class Command {
-    public final int id;
-    public final int version;
+public interface Command {
+    CommandType getType();
 
-    public Command(int id, int version) {
-        this.id = id;
-        this.version = version;
-    }
+    void run(Repository repository) throws EntityNotFound;
 
-    public abstract CommandType getType();
-    public abstract void run(Repository repository) throws EntityNotFound;
+    int id();
 }

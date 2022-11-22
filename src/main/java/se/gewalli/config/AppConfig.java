@@ -1,20 +1,19 @@
 package se.gewalli.config;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.Executors;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-
 import se.gewalli.AppendBatch;
 import se.gewalli.CommandsHandler;
 import se.gewalli.data.InMemoryRepository;
 import se.gewalli.data.Repository;
 import se.gewalli.json.AppendToFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.Executors;
 
 @Configuration
 public class AppConfig {
@@ -34,8 +33,8 @@ public class AppConfig {
             logger.info("No database location found, using tmp");
             dbLocation = "/tmp/test.db";
         }
-        var db=new File(dbLocation);
-        if (! db.exists()){
+        var db = new File(dbLocation);
+        if (!db.exists()) {
             db.createNewFile();
         }
         return new AppendToFile(dbLocation,
@@ -47,5 +46,5 @@ public class AppConfig {
     public CommandsHandler persistCommandsHandler() {
         return new CommandsHandler();
     }
-   
+
 }

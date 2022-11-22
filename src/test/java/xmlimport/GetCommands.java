@@ -17,8 +17,8 @@ public class GetCommands {
             BufferedReader r = Files.newBufferedReader(Paths.get("src/test/java/TestData.xml"));
 
             XmlMapper xmlMapper = new XmlMapper();
-            Database d= xmlMapper.readValue(r, Database.class);
-            List<Command> commands=new ArrayList<>();
+            Database d = xmlMapper.readValue(r, Database.class);
+            List<Command> commands = new ArrayList<>();
             for (Customer c : d.customers) {
                 commands.add(new AddCustomerCommand(
                         c.id,

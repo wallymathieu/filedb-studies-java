@@ -10,9 +10,10 @@ import se.gewalli.kyminon.Result;
 
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
+
 /**
-* Wraps append batch and repository in order to append command results to repository and append them once done.
-* */
+ * Wraps append batch and repository in order to append command results to repository and append them once done.
+ */
 public class CommandsHandler {
     @Autowired
     private AppendBatch appendBatch;
