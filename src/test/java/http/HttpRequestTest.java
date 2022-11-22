@@ -10,6 +10,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import retrofit2.Response;
 import se.gewalli.controllers.CustomersController.CreateCustomer;
+import se.gewalli.controllers.OrdersController;
 import se.gewalli.controllers.OrdersController.AddProduct;
 import se.gewalli.controllers.OrdersController.CreateOrder;
 import se.gewalli.controllers.ProductsController.CreateProduct;
@@ -74,13 +75,13 @@ public class HttpRequestTest {
         customers.post(new CreateCustomer(customer, "Firstname", "Lastname")).execute();
         orders.post(new CreateOrder(orderId, customer)).execute();
         products.post(new CreateProduct(productId, 10, "product1")).execute();
-        orders.addProduct(orderId, new AddProduct(productId)).execute();
+        Response<Order> productAddedResponse = orders.addProduct(orderId, new AddProduct(productId)).execute();
+        assertEquals(HttpStatus.OK.value(), productAddedResponse.code());
         Response<Order> exchange = orders.get(orderId).execute();
         assertEquals(HttpStatus.OK.value(), exchange.code());
         Order body = exchange.body();
         assertNotNull(body);
         assertEquals("Firstname", body.customer.firstname);
-        // TODO:
-        // assertEquals(1, body.products.size());
+        assertEquals(1, body.products.size());
     }
 }
