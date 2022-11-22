@@ -61,7 +61,7 @@ public class OrdersController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = Order.class)})
     @RequestMapping(value = "/api/orders/{id}/products", method = RequestMethod.POST)
-    public CompletableFuture<ResponseEntity<Order>> addProduct(int id, @RequestBody()AddProduct body) {
+    public CompletableFuture<ResponseEntity<Order>> addProduct(@PathVariable int id, @RequestBody()AddProduct body) {
         Command command=new AddProductToOrderCommand(0,0, id, body.productId );
         return commandsHandler.handle(command).thenApply(result->
                 result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(id).orElse((Order)null)),
