@@ -74,7 +74,8 @@ public class AppendToFile implements AppendBatch {
 
     private Collection<Command> parse(String line) {
         try {
-            return objectMapper.readValue(line, new TypeReference<Collection<Command>>() {});
+            return objectMapper.readValue(line, new TypeReference<Collection<Command>>() {
+            });
         } catch (IOException ex) {//NOTE: We assume low probability of this happening
             logger.accept(ex);
             throw new RuntimeException(ex);

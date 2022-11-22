@@ -18,53 +18,63 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController()
 public class OrdersController {
-    public static class CreateOrder{
+    public static class CreateOrder {
         public int id;
         public int customer;
-        public CreateOrder(){
+
+        public CreateOrder() {
         }
-        public CreateOrder(int id, int customer){
+
+        public CreateOrder(int id, int customer) {
             this.id = id;
             this.customer = customer;
         }
     }
-    public static class AddProduct{
+
+    public static class AddProduct {
         public int productId;
-        public AddProduct(){
+
+        public AddProduct() {
         }
-        public AddProduct(int productId){
+
+        public AddProduct(int productId) {
             this.productId = productId;
-        } 
+        }
     }
+
     @Autowired
     private Repository repository;
     @Autowired
     private CommandsHandler commandsHandler;
+
     @RequestMapping(value = "/api/orders/{id}", method = RequestMethod.GET)
     public ResponseEntity<Order> get(@PathVariable int id) {
         return repository.tryGetOrder(id).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body((Order)null));
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
     @RequestMapping(value = "/api/orders", method = RequestMethod.GET)
     public ResponseEntity<Order[]> get() {
         return ResponseEntity.ok(repository.getOrders().toArray(new Order[0]));
     }
+
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = Order.class)})
     @RequestMapping(value = "/api/orders", method = RequestMethod.POST)
-    public CompletableFuture<ResponseEntity<Order>> add(@RequestBody()CreateOrder body) {
-        Command command=new AddOrderCommand(body.id,0, body.customer, Instant.now() );
-        return commandsHandler.handle(command).thenApply(result->
-                result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(body.id).orElse((Order)null)),
-                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Order)null)));
+    public CompletableFuture<ResponseEntity<Order>> add(@RequestBody() CreateOrder body) {
+        Command command = new AddOrderCommand(body.id, 0, body.customer, Instant.now());
+        return commandsHandler.handle(command).thenApply(result ->
+                result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(body.id).orElse(null)),
+                        err -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
+
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = Order.class)})
     @RequestMapping(value = "/api/orders/{id}/products", method = RequestMethod.POST)
-    public CompletableFuture<ResponseEntity<Order>> addProduct(@PathVariable int id, @RequestBody()AddProduct body) {
-        Command command=new AddProductToOrderCommand(0,0, id, body.productId );
-        return commandsHandler.handle(command).thenApply(result->
-                result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(id).orElse((Order)null)),
-                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Order)null)));
+    public CompletableFuture<ResponseEntity<Order>> addProduct(@PathVariable int id, @RequestBody() AddProduct body) {
+        Command command = new AddProductToOrderCommand(0, 0, id, body.productId);
+        return commandsHandler.handle(command).thenApply(result ->
+                result.fold(a -> ResponseEntity.ok(repository.tryGetOrder(id).orElse(null)),
+                        err -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
 }

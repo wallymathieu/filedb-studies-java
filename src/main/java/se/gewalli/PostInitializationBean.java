@@ -31,6 +31,9 @@ public class PostInitializationBean {
                     }
                     return 0;
                 },
-                err -> {logger.error("Failed to read all", err); return 1;})).join();
+                err -> {
+                    logger.error("Failed to read all", err);
+                    return 1;
+                })).join();
     }
 }

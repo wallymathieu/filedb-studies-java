@@ -7,7 +7,7 @@ import se.gewalli.entities.Product;
 public record AddProductCommand(@JsonProperty("id") int id,
                                 @JsonProperty("version") int version,
                                 @JsonProperty("cost") float cost,
-                                @JsonProperty("name") String name)  implements Command {
+                                @JsonProperty("name") String name) implements Command {
 
     @Override
     public CommandType getType() {

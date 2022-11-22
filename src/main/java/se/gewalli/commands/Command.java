@@ -16,6 +16,7 @@ import se.gewalli.data.Repository;
 })
 public interface Command {
     CommandType getType();
+
     void run(Repository repository) throws EntityNotFound;
 
     int id();

@@ -21,8 +21,8 @@ public record AddProductToOrderCommand(@JsonProperty("id") int id,
     @Override
     public void run(Repository repository) throws EntityNotFound {
         var order = repository.getOrder(orderId);
-        var productList= new ArrayList<Product>(order.products());
+        var productList = new ArrayList<Product>(order.products());
         productList.add(repository.getProduct(productId));
-        repository.save(new Order(order.id(), order.customer(), order.orderDate(), productList,order.version()+1));
+        repository.save(new Order(order.id(), order.customer(), order.orderDate(), productList, order.version() + 1));
     }
 }

@@ -16,38 +16,44 @@ import java.util.concurrent.CompletableFuture;
 
 @RestController()
 public class CustomersController {
-    public static class CreateCustomer{
+    public static class CreateCustomer {
         public int id;
         public String firstname;
         public String lastname;
-        public CreateCustomer(){
+
+        public CreateCustomer() {
         }
-        public CreateCustomer(int id, String firstname, String lastname){
-            this.id=id;
-            this.firstname=firstname;
-            this.lastname=lastname;
+
+        public CreateCustomer(int id, String firstname, String lastname) {
+            this.id = id;
+            this.firstname = firstname;
+            this.lastname = lastname;
         }
     }
+
     @Autowired
     private Repository repository;
     @Autowired
     private CommandsHandler commandsHandler;
+
     @RequestMapping(value = "/api/customers/{id}", method = RequestMethod.GET)
     public ResponseEntity<Customer> get(@PathVariable int id) {
         return repository.tryGetCustomer(id).map(ResponseEntity::ok)
-                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body((Customer)null));
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
     @RequestMapping(value = "/api/customers", method = RequestMethod.GET)
     public ResponseEntity<Customer[]> get() {
         return ResponseEntity.ok(repository.getCustomers().toArray(new Customer[0]));
     }
+
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "successful operation", response = Customer.class)})
     @RequestMapping(value = "/api/customers", method = RequestMethod.POST)
-    public CompletableFuture<ResponseEntity<Customer>> add(@RequestBody()CreateCustomer body) {
-        Command command=new AddCustomerCommand(body.id,0, body.firstname, body.lastname);
-        return commandsHandler.handle(command).thenApply(result->
-                result.fold(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse((Customer)null)),
-                        err->ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((Customer)null)));
+    public CompletableFuture<ResponseEntity<Customer>> add(@RequestBody() CreateCustomer body) {
+        Command command = new AddCustomerCommand(body.id, 0, body.firstname, body.lastname);
+        return commandsHandler.handle(command).thenApply(result ->
+                result.fold(a -> ResponseEntity.ok(repository.tryGetCustomer(body.id).orElse(null)),
+                        err -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null)));
     }
 }

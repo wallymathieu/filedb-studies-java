@@ -34,8 +34,8 @@ public class AppConfig {
             logger.info("No database location found, using tmp");
             dbLocation = "/tmp/test.db";
         }
-        var db=new File(dbLocation);
-        if (! db.exists()){
+        var db = new File(dbLocation);
+        if (!db.exists()) {
             db.createNewFile();
         }
         return new AppendToFile(dbLocation,
@@ -47,5 +47,5 @@ public class AppConfig {
     public CommandsHandler persistCommandsHandler() {
         return new CommandsHandler();
     }
-   
+
 }
