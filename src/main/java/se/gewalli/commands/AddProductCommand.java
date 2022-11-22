@@ -1,6 +1,6 @@
 package se.gewalli.commands;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import se.gewalli.data.Repository;
 import se.gewalli.entities.Product;
 

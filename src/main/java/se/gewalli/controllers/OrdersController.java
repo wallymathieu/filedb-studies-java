@@ -21,7 +21,7 @@ public class OrdersController {
     public record CreateOrder(int id, int customer) {
     }
 
-    public record AddProduct (int productId) {
+    public record AddProduct(int productId) {
     }
 
     @Autowired

@@ -11,7 +11,7 @@ public class IndexController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public RedirectView get(@RequestParam(value = "name", defaultValue = "") String name) {
-        return new RedirectView("/swagger-ui.html");
+        return new RedirectView("/swagger-ui/");
     }
 }
 

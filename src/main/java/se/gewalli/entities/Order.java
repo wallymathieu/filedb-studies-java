@@ -1,13 +1,10 @@
 package se.gewalli.entities;
 
 
-import java.util.Collection;
-import java.util.Collections;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
+import java.util.Collection;
 
 public record Order(
         @JsonProperty("id") int id,

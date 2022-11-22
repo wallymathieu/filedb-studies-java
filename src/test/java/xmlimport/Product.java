@@ -2,13 +2,13 @@ package xmlimport;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 
-public class Product{
+public class Product {
     @JacksonXmlProperty(localName = "Id")
     public int id;
-    @JacksonXmlProperty(localName ="Cost")
+    @JacksonXmlProperty(localName = "Cost")
     public float cost;
-    @JacksonXmlProperty(localName ="Name")
+    @JacksonXmlProperty(localName = "Name")
     public String name;
-    @JacksonXmlProperty(localName ="Version")
+    @JacksonXmlProperty(localName = "Version")
     public int version;
 }
