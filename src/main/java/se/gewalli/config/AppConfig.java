@@ -31,7 +31,7 @@ public class AppConfig {
         var logger = LoggerFactory.getLogger(AppConfig.class);
         if (dbLocation == null || dbLocation.isEmpty()) {
             logger.info("No database location found, using tmp");
-            dbLocation = "/tmp/test.db";
+            dbLocation = "./tmp/test.db";
         }
         var db = new File(dbLocation);
         if (!db.exists()) {
